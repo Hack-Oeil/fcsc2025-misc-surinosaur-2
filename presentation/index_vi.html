@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="vi">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Kiểm tra xem cửa sổ có nằm trong iframe không
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // Kích hoạt tô sáng cú pháp:
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js chưa được tải!");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #592</h3>
+                            <h2 class="section-title">Surinausor (Winds of the past)</h2>
+                            <p>
+<em>FCSC là một giải CTF theo thể thức Jeopardy, nhưng đây là một thử thách giúp bạn luyện tập ở chế độ Tấn công - Phòng thủ (Attack-Defense).</em> <em>Các flag được trao đổi giữa các đội mô phỏng là hư cấu và độc lập với FCSC.</em> <em>Mục tiêu của bạn là lọc lưu lượng mạng: khi thành công, bạn sẽ nhận được flag để xác thực thử thách FCSC.</em>
+<br /><br />
+Bạn đang tham gia một <a href="https://2023.faustctf.net/information/attackdefense-for-beginners/">giải CTF chế độ Attack/Defense</a>, nhưng thảm họa đã xảy ra! Ban tổ chức chỉ cung cấp các dịch vụ dưới dạng file thực thi nhị phân hoặc bằng các ngôn ngữ xa lạ mà bạn không biết, khiến việc vá lỗi trực tiếp là bất khả thi. Bạn quyết định thay đổi hoàn toàn chiến lược: thay vì sửa các lỗ hổng, bạn thiết lập <a href="https://vi.wikipedia.org/wiki/H%E1%BB%87_th%E1%BB%91ng_ng%C4%83n_ng%E1%BB%ABa_x%C3%A2m_nh%E1%BA%ADp">hệ thống ngăn ngừa xâm nhập</a> (IPS) trên máy chủ lưu trữ dịch vụ của bạn (<em>vulnbox</em>).
+<br /><br />
+Chúng tôi cung cấp cho bạn một bản ghi lưu lượng mạng tham khảo (tệp <code>winds-of-the-past.pcap</code>) được ghi lại vào thời điểm bạn kinh hoàng phát hiện trên bảng điểm rằng một đội đã đánh cắp các flag của bạn. Các flag trong đợt tấn công - phòng thủ này tuân theo biểu thức chính quy (regex) <code>ECSC_[A-Za-z0-9\/+]{32}</code>. Mục tiêu của bạn là viết các quy tắc Suricata nhằm <strong>chỉ chặn payload được sử dụng bởi cuộc tấn công (hoặc các cuộc tấn công) đã quan sát thấy</strong>. Bạn không được chặn lưu lượng hợp lệ, vốn dùng để nộp flag và kiểm tra sự hiện diện của flag trong dịch vụ. Sau khi viết xong các quy tắc, bạn có thể kết nối tới <code>nc localhost 4000</code> để kiểm tra với lưu lượng mới. Chúng tôi sẽ cung cấp flag FCSC khi dịch vụ được bảo vệ đúng cách (chặn lưu lượng bất hợp pháp, giữ nguyên lưu lượng hợp lệ).
+<br /><br />
+Bạn có thể tải về các ví dụ về quy tắc chặn tại đây để tham khảo: <a href="https://rules.emergingthreats.net/OPEN_download_instructions.html">https://rules.emergingthreats.net/OPEN_download_instructions.html</a>. Chúng tôi cũng khuyến khích bạn đọc tài liệu hướng dẫn của Suricata: <a href="https://docs.suricata.io/en/suricata-7.0.6/rules/index.html">https://docs.suricata.io/en/suricata-7.0.6/rules/index.html</a>.
+<br /><br />
+Lưu ý: <em>Dịch vụ Attack-Defense được xét đến là Winds of the past, ban đầu được phát triển cho ECSC 2022. Bạn không cần phải đọc mã nguồn của dịch vụ này để giải quyết thử thách.</em>
+                            </p>
+                            <h4>Tệp cần nghiên cứu:</h4>
+                            <p>../files/winds-of-the-past.pcap.xz</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2025</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                Liên kết chính thức:
+                                <a target="_blank" href="https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/">https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/</a>
+                                <br />
+                                Tác giả: erdnaxe
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Học tập</h3>
+                            <h2 class="section-title">Tài liệu và Video</h2>
+                            <p class="section-subtitle">
+                                Hiện tại chưa có tài liệu nào
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Trợ giúp</h3>
+                            <h2 class="section-title">Lời khuyên và gợi ý</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">Luồng
+                                    trên Discord</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="Cuộn lên đầu trang" title="Cuộn lên đầu trang"></a>
+    </div>
+</body>
+
+</html>

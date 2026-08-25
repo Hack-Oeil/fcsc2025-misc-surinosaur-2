@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="pt">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verifica se a janela está em um iframe
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // Ativa o destaque de sintaxe:
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js não carregado!");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #592</h3>
+                            <h2 class="section-title">Surinausor (Winds of the past)</h2>
+                            <p>
+<em>O FCSC é um CTF no formato Jeopardy, mas aqui está um desafio para você treinar no modo Ataque-Defesa.</em> <em>As flags trocadas entre as equipes simuladas são fictícias e independentes do FCSC.</em> <em>Seu objetivo é filtrar o tráfego de rede: quando conseguir, a flag para validar o desafio do FCSC será fornecida.</em>
+<br /><br />
+Você está jogando um <a href="https://2023.faustctf.net/information/attackdefense-for-beginners/">CTF no modo Attack/Defense</a>, mas aconteceu uma catástrofe! Os organizadores forneceram apenas serviços em formato binário ou em linguagens exóticas que você não conhece, tornando impossível corrigi-los de forma simples. Você decide mudar drasticamente de estratégia: em vez de corrigir as vulnerabilidades, você instala <a href="https://pt.wikipedia.org/wiki/Sistema_de_preven%C3%A7%C3%A3o_de_intrus%C3%B5es">um sistema de prevenção de intrusões</a> (IPS) na máquina que hospeda seus serviços (a <em>vulnbox</em>).
+<br /><br />
+Fornecemos como referência uma captura de rede (arquivo <code>winds-of-the-past.pcap</code>) feita no momento em que você descobriu com horror no placar que uma equipe conseguiu roubar suas flags. As flags deste ataque-defesa seguem a regex <code>ECSC_[A-Za-z0-9\/+]{32}</code>. Seu objetivo é escrever regras do Suricata para <strong>bloquear apenas o payload usado pelo(s) ataque(s) observado(s)</strong>. Você não deve bloquear o tráfego legítimo que permite, entre outras coisas, depositar flags e verificar a presença de flags no serviço. Assim que suas regras forem escritas, você pode se conectar em <code>nc localhost 4000</code> para testá-las em um novo tráfego. Entregaremos a flag do FCSC assim que o serviço estiver devidamente protegido (tráfego ilegítimo bloqueado, tráfego legítimo inalterado).
+<br /><br />
+Você pode baixar exemplos de regras de bloqueio aqui para se inspirar: <a href="https://rules.emergingthreats.net/OPEN_download_instructions.html">https://rules.emergingthreats.net/OPEN_download_instructions.html</a>. Também recomendamos a leitura da documentação do Suricata: <a href="https://docs.suricata.io/en/suricata-7.0.6/rules/index.html">https://docs.suricata.io/en/suricata-7.0.6/rules/index.html</a>.
+<br /><br />
+Nota: <em>O serviço de Ataque-Defesa considerado é o Winds of the past, desenvolvido inicialmente para o ECSC 2022. Não é necessário ler o código-fonte deste serviço para resolver este desafio.</em>
+                            </p>
+                            <h4>Arquivo a analisar:</h4>
+                            <p>../files/winds-of-the-past.pcap.xz</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2025</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                Link oficial:
+                                <a target="_blank" href="https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/">https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/</a>
+                                <br />
+                                Autor: erdnaxe
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Aprendizagem</h3>
+                            <h2 class="section-title">Documentação e Vídeos</h2>
+                            <p class="section-subtitle">
+                                Nenhuma documentação no momento
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Ajuda</h3>
+                            <h2 class="section-title">Dicas e orientações</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">Tópico
+                                    no Discord</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="Voltar ao topo da página" title="Voltar ao topo"></a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="th">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ตรวจสอบว่าหน้าต่างอยู่ใน iframe หรือไม่
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // เปิดใช้งานการเน้นไวยากรณ์:
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js ไม่ได้โหลด!");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #592</h3>
+                            <h2 class="section-title">Surinausor (Winds of the past)</h2>
+                            <p>
+<em>FCSC เป็นการแข่งขัน CTF รูปแบบ Jeopardy แต่โจทย์นี้จัดทำขึ้นเพื่อให้คุณได้ฝึกฝนในโหมด Attack-Defense</em> <em>แฟล็กที่แลกเปลี่ยนระหว่างทีมจำลองเป็นข้อมูลสมมติและไม่ขึ้นกับ FCSC</em> <em>เป้าหมายของคุณคือการกรองทราฟฟิกเครือข่าย: เมื่อทำสำเร็จ คุณจะได้รับแฟล็กเพื่อผ่านการทดสอบของ FCSC</em>
+<br /><br />
+คุณกำลังเล่น <a href="https://2023.faustctf.net/information/attackdefense-for-beginners/">CTF ในโหมด Attack/Defense</a> แต่เกิดหายนะขึ้น! ผู้จัดได้เตรียมบริการมาให้ในรูปแบบไฟล์ไบนารีหรือภาษาแปลกใหม่ที่คุณไม่รู้จัก ทำให้ไม่สามารถแพตช์แก้ไขได้ง่ายๆ คุณจึงตัดสินใจเปลี่ยนกลยุทธ์อย่างสิ้นเชิง: แทนที่จะแก้ไขช่องโหว่ คุณติดตั้ง <a href="https://th.wikipedia.org/wiki/%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%9B%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9A%E0%B8%B8%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%81">ระบบป้องกันการบุกรุก</a> (IPS) บนเครื่องที่โฮสต์บริการของคุณ (<em>vulnbox</em>)
+<br /><br />
+เราได้เตรียมไฟล์บันทึกทราฟฟิกเครือข่าย (ไฟล์ <code>winds-of-the-past.pcap</code>) ไว้สำหรับอ้างอิง ซึ่งบันทึกไว้ในตอนที่คุณพบว่ามีทีมหนึ่งสามารถขโมยแฟล็กของคุณไปได้บนกระดานคะแนน แฟล็กของการแข่งขันแบบโจมตี-ป้องกันนี้ตรงกับ regex <code>ECSC_[A-Za-z0-9\/+]{32}</code> เป้าหมายของคุณคือการเขียนกฎ Suricata เพื่อ <strong>บล็อกเฉพาะเพย์โหลด (payload) ที่การโจมตีที่ตรวจพบใช้งานเท่านั้น</strong> คุณต้องไม่บล็อกทราฟฟิกที่ถูกต้องซึ่งใช้สำหรับส่งแฟล็กและตรวจสอบการมีอยู่ของแฟล็กในระบบ เมื่อเขียนกฎเสร็จแล้ว คุณสามารถเชื่อมต่อไปยัง <code>nc localhost 4000</code> เพื่อทดสอบกับทราฟฟิกใหม่ เราจะมอบแฟล็ก FCSC ให้เมื่อบริการได้รับการปกป้องอย่างถูกต้อง (บล็อกทราฟฟิกที่ไม่ถูกต้อง และไม่แก้ไขทราฟฟิกที่ถูกต้อง)
+<br /><br />
+คุณสามารถดาวน์โหลดตัวอย่างกฎการบล็อกได้ที่นี่เพื่อเป็นแนวทาง: <a href="https://rules.emergingthreats.net/OPEN_download_instructions.html">https://rules.emergingthreats.net/OPEN_download_instructions.html</a> เราขอแนะนำให้อ่านเอกสารประกอบของ Suricata เพิ่มเติมด้วย: <a href="https://docs.suricata.io/en/suricata-7.0.6/rules/index.html">https://docs.suricata.io/en/suricata-7.0.6/rules/index.html</a>
+<br /><br />
+หมายเหตุ: <em>บริการ Attack-Defense ที่ใช้นี้คือ Winds of the past ซึ่งพัฒนาขึ้นสำหรับ ECSC 2022 คุณไม่จำเป็นต้องอ่านซอร์สโค้ดของบริการนี้เพื่อแก้โจทย์</em>
+                            </p>
+                            <h4>ไฟล์ที่ต้องศึกษา:</h4>
+                            <p>../files/winds-of-the-past.pcap.xz</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2025</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                ลิงก์ทางการ:
+                                <a target="_blank" href="https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/">https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/</a>
+                                <br />
+                                ผู้เขียน: erdnaxe
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>การเรียนรู้</h3>
+                            <h2 class="section-title">เอกสารและวิดีโอ</h2>
+                            <p class="section-subtitle">
+                                ยังไม่มีเอกสารในขณะนี้
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>ความช่วยเหลือ</h3>
+                            <h2 class="section-title">คำแนะนำและคำใบ้</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">กระทู้บน
+                                    Discord</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="กลับสู่ด้านบน" title="กลับสู่ด้านบน"></a>
+    </div>
+</body>
+
+</html>

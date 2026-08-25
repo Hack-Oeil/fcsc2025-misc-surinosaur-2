@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="ko">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // iframe 내부인지 확인
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // 구문 강조 활성화:
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js가 로드되지 않았습니다!");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #592</h3>
+                            <h2 class="section-title">Surinausor (Winds of the past)</h2>
+                            <p>
+<em>FCSC는 Jeopardy 형식의 CTF이지만, 공격-방어(Attack-Defense) 모드를 연습할 수 있는 문제가 준비되어 있습니다.</em> <em>시뮬레이션된 팀 간에 교환되는 플래그는 가상이며 FCSC와 무관합니다.</em> <em>여러분의 목표는 네트워크 트래픽을 필터링하는 것입니다. 성공하면 FCSC 문제를 인증하기 위한 플래그가 제공됩니다.</em>
+<br /><br />
+여러분은 <a href="https://2023.faustctf.net/information/attackdefense-for-beginners/">공격/방어(Attack/Defense) 모드 CTF</a>를 플레이하고 있지만, 문제가 발생했습니다! 주최측에서 바이너리 형태이거나 잘 알지 못하는 낯선 언어로 된 서비스만 제공하여 쉽게 패치할 수 없습니다. 여러분은 전략을 과감히 변경하기로 결정했습니다. 취약점을 수정하는 대신, 서비스를 호스팅하는 머신(<em>vulnbox</em>)에 <a href="https://ko.wikipedia.org/wiki/%EC%BE%81%EC%9E%85_%EB%B0%A9%EC%A7%80_%EC%8B%9C%EC%8A%A4%ED%85%9C">침입 방지 시스템</a>(IPS)을 구축합니다.
+<br /><br />
+스코어보드에서 한 팀이 여러분의 플래그를 탈취하는 데 성공한 것을 확인한 순간 캡처된 네트워크 패킷(<code>winds-of-the-past.pcap</code> 파일)을 참고용으로 제공합니다. 이 공격-방어전의 플래그는 정규표현식 <code>ECSC_[A-Za-z0-9\/+]{32}</code> 형식을 따릅니다. 여러분의 목표는 <strong>관측된 공격에 사용된 페이로드만을 차단</strong>하는 Suricata 규칙을 작성하는 것입니다. 플래그를 제출하고 서비스 내 플래그 존재 여부를 확인하는 합법적인 트래픽은 차단해서는 안 됩니다. 규칙을 작성한 후 <code>nc localhost 4000</code>에 연결하여 새로운 트래픽에 대해 테스트할 수 있습니다. 서비스가 올바르게 보호되면(불법 트래픽 차단, 합법 트래픽 미수정) FCSC 플래그가 제공됩니다.
+<br /><br />
+영감을 얻기 위해 차단 규칙 예제를 여기서 다운로드할 수 있습니다: <a href="https://rules.emergingthreats.net/OPEN_download_instructions.html">https://rules.emergingthreats.net/OPEN_download_instructions.html</a>. 또한 Suricata 공식 문서를 읽어보는 것을 권장합니다: <a href="https://docs.suricata.io/en/suricata-7.0.6/rules/index.html">https://docs.suricata.io/en/suricata-7.0.6/rules/index.html</a>.
+<br /><br />
+참고: <em>해당 공격-방어 서비스는 원래 ECSC 2022용으로 개발된 Winds of the past입니다. 이 문제를 해결하기 위해 해당 서비스의 소스 코드를 읽을 필요는 없습니다.</em>
+                            </p>
+                            <h4>분석할 파일:</h4>
+                            <p>../files/winds-of-the-past.pcap.xz</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2025</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                공식 링크:
+                                <a target="_blank" href="https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/">https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/</a>
+                                <br />
+                                작성자: erdnaxe
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>학습</h3>
+                            <h2 class="section-title">문서 및 영상</h2>
+                            <p class="section-subtitle">
+                                현재 제공되는 문서가 없습니다
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>도움말</h3>
+                            <h2 class="section-title">힌트 및 조언</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">Discord
+                                    스레드</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="페이지 맨 위로 이동" title="페이지 맨 위로 이동"></a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+services:
+  ssh-592.cyrhades.fr:
+    container_name: ssh-592
+    build:
+      context: ./.docker/ssh
+      args:
+        LANGUAGE: ${LANGUAGE:-fr}
+    labels:
+      ho.ctf.cyrhades: "challenge"
+      ho.ctf.cyrhades.webssh: "1"
+    environment:
+      SSH_HOSTNAME: "ssh-592.cyrhades.fr"
+      SSH_PORT: 22
+      SSH_USERNAME: "cyrhades"
+      SSH_PASSWORD: "secret"
+    restart: unless-stopped
+  surinosaur.cyrhades.fr:
+    image: anssi/fcsc2025-misc-surinosaur:latest

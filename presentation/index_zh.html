@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="zh">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查窗口是否在 iframe 中
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // 启用代码高亮：
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js 未加载！");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #592</h3>
+                            <h2 class="section-title">Surinausor (Winds of the past)</h2>
+                            <p>
+<em>FCSC 是一项 Jeopardy 形式的 CTF 比赛，但这里提供了一道用于攻防（Attack-Defense）模式训练的题目。</em> <em>在模拟队伍之间交换的 Flag 是虚构的，且与 FCSC 主赛题独立。</em> <em>你的目标是过滤网络流量：一旦成功，将向你发放用于验证 FCSC 题目的 Flag。</em>
+<br /><br />
+你正在参加一场 <a href="https://2023.faustctf.net/information/attackdefense-for-beginners/">攻防（Attack/Defense）模式的 CTF</a>，但灾难发生了！主办方仅提供了二进制形式或由你不熟悉的奇特语言编写的服务，根本无法轻松对其进行热修复与打补丁。你决定彻底改变策略：与其修复漏洞，不如在托管服务的机器（<em>vulnbox</em>）上部署一套 <a href="https://zh.wikipedia.org/wiki/%E5%85%A5%E4%BE%B5%E9%98%B2%E5%BE%A1%E7%B3%BB%E7%BB%9F">入侵防御系统</a>（IPS）。
+<br /><br />
+我们为你提供了一份网络抓包文件作为参考（文件 <code>winds-of-the-past.pcap</code>），该抓包截取于你在记分板上惊恐地发现有队伍成功窃取了你的 Flag 的时刻。本次攻防赛的 Flag 符合正则表达式 <code>ECSC_[A-Za-z0-9\/+]{32}</code>。你的目标是编写 Suricata 规则，以<strong>仅拦截所观测到的攻击所使用的有效载荷（payload）</strong>。绝不能拦截合法流量，因为合法流量需要用于提交 Flag 以及测试服务中 Flag 的存在性等操作。规则编写完成后，你可以连接到 <code>nc localhost 4000</code> 在新流量上进行测试。一旦服务得到正确防护（非法流量被拦截，合法流量保持原样），我们将为你提供 FCSC Flag。
+<br /><br />
+你可以从此处下载拦截规则示例作为参考灵感：<a href="https://rules.emergingthreats.net/OPEN_download_instructions.html">https://rules.emergingthreats.net/OPEN_download_instructions.html</a>。我们还建议你阅读 Suricata 官方文档：<a href="https://docs.suricata.io/en/suricata-7.0.6/rules/index.html">https://docs.suricata.io/en/suricata-7.0.6/rules/index.html</a>。
+<br /><br />
+注意：<em>所涉及的攻防服务为 Winds of the past，最初为 ECSC 2022 开发。解决本题无需阅读该服务的源代码。</em>
+                            </p>
+                            <h4>需要分析的文件：</h4>
+                            <p>../files/winds-of-the-past.pcap.xz</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2025</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                官方链接：
+                                <a target="_blank" href="https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/">https://hackropole.fr/fr/challenges/misc/fcsc2025-misc-surinosaur-2/</a>
+                                <br />
+                                作者: erdnaxe
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>学习</h3>
+                            <h2 class="section-title">文档与视频</h2>
+                            <p class="section-subtitle">
+                                暂无文档
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>帮助</h3>
+                            <h2 class="section-title">提示与建议</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">Discord
+                                    讨论帖</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="回到顶部" title="回到顶部"></a>
+    </div>
+</body>
+
+</html>
